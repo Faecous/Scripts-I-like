@@ -19,8 +19,8 @@ ESP_ENABLED  = false
 _G.FREE_FOR_ALL = true
 
 _G.BIND        = 50
-_G.ESP_BIND    = 52
-_G.CHANGE_AIM  = 'gfdkdfvdgfdgccv'
+_G.ESP_BIND    = 60
+_G.CHANGE_AIM  = 'r'
 
 _G.AIM_AT = 'Head'
 
@@ -218,7 +218,19 @@ MOUSE.KeyDown:connect(function(KEY)
 end)
 
 MOUSE.KeyDown:connect(function(KEY)
-	if KEY == _G.CHANGE_AIM then
+    local humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid
+    if humanoid.RigType == Enum.HumanoidRigType.R15 then
+        if KEY == _G.CHANGE_AIM then
+		    if _G.AIM_AT == 'Head' then
+			    _G.AIM_AT = 'LowerTorso'
+			    GUI_AIM_AT.Text = 'AIMING : TORSO'
+		    elseif _G.AIM_AT == 'LowerTorso' then
+			    _G.AIM_AT = 'Head'
+			    GUI_AIM_AT.Text = 'AIMING : HEAD'
+		    end
+	    end
+    else
+        if KEY == _G.CHANGE_AIM then
 		if _G.AIM_AT == 'Head' then
 			_G.AIM_AT = 'Torso'
 			GUI_AIM_AT.Text = 'AIMING : TORSO'
@@ -227,6 +239,7 @@ MOUSE.KeyDown:connect(function(KEY)
 			GUI_AIM_AT.Text = 'AIMING : HEAD'
 		end
 	end
+    end
 end)
 
 game:GetService('RunService').RenderStepped:connect(function()
